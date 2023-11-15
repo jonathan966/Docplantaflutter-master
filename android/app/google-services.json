@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "975185048954",
+    "project_id": "fir-gtx-34760",
+    "storage_bucket": "fir-gtx-34760.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975185048954:android:e6b0154389ce638531d2c3",
+        "android_client_info": {
+          "package_name": "com.example.getxlogin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTjLXZ1Q4aLtjnly9n4KEGeuNvQ0tG98A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
