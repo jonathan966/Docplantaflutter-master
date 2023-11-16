@@ -10,16 +10,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home"), centerTitle: true),
+      appBar: AppBar(title: Text("Inicio"),backgroundColor: Colors.green, centerTitle: true),
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Home"),
+
           ],
         ),
       ),
       bottomNavigationBar: BottomAppBar(
+        color: Colors.green,
         shape: CircularNotchedRectangle(),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -72,7 +74,8 @@ class ThirdPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Third Page")),
+      appBar: AppBar(title: Text("Third Page"),backgroundColor: Colors.green),
+      backgroundColor: Colors.white,
       body: Center(
         child: const Text("This is the third page."),
       ),
@@ -84,7 +87,8 @@ class FourthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Fourth Page")),
+      appBar: AppBar(title: Text("Fourth Page"),backgroundColor: Colors.green),
+      backgroundColor: Colors.white,
       body: Center(
         child: const Text("This is the fourth page."),
       ),
@@ -96,7 +100,8 @@ class FifthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Fifth Page")),
+      appBar: AppBar(title: Text("Fifth Page"),backgroundColor: Colors.green),
+      backgroundColor: Colors.white,
       body: Center(
         child: const Text("This is the fifth page."),
       ),
