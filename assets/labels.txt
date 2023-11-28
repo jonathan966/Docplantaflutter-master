@@ -1,0 +1,2 @@
+0 jitomate_enfermo
+1 jitomate_sano

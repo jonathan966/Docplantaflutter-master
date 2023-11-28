@@ -8,74 +8,73 @@ import 'package:getxlogin/Constants/auth_constans.dart';
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> firebaseUser;
-  late Rx<GoogleSignInAccount?> googleSingInAccount;
+  late Rx<GoogleSignInAccount?> googleSignInAccount;
 
   @override
   void onReady() {
     firebaseUser = Rx<User?>(auth.currentUser);
-    googleSingInAccount = Rx<GoogleSignInAccount?>(googleSignIn.currentUser);
+    googleSignInAccount = Rx<GoogleSignInAccount?>(googleSignIn.currentUser);
     firebaseUser.bindStream(auth.authStateChanges());
-    ever(firebaseUser,_setInitialScreen);
-    googleSingInAccount.bindStream(googleSignIn.onCurrentUserChanged);
-    ever(googleSingInAccount,_setInitialScreenGoogle);
+    ever(firebaseUser, _setInitialScreen);
+    googleSignInAccount.bindStream(googleSignIn.onCurrentUserChanged);
+    ever(googleSignInAccount, _setInitialScreenGoogle);
     super.onReady();
   }
 
-  _setInitialScreen(User? user){
-    if(user == null){
+  _setInitialScreen(User? user) {
+    if (user == null) {
       Get.offAll(() => const Register());
-    }else{
+    } else {
       Get.offAll(() => const HomePage());
     }
   }
 
-
-  _setInitialScreenGoogle(GoogleSignInAccount? googleSignInAccount){
+  _setInitialScreenGoogle(GoogleSignInAccount? googleSignInAccount) {
     print(googleSignInAccount);
-    if(googleSingInAccount != null){
+    if (googleSignInAccount != null) {
       Get.offAll(() => const Register());
-    }else{
+    } else {
       Get.offAll(() => const HomePage());
-      }
-      }
-
-  void SignInWithGoogle() async {
-    try {
-      GoogleSignInAccount? googleSingInAccount = await googleSignIn.signIn();
-      if (googleSingInAccount != null) {
-        GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSingInAccount.authentication;
-        AuthCredential credential = GoogleAuthProvider.credential(
-            idToken: googleSignInAuthentication.idToken,
-            accessToken: googleSignInAuthentication.accessToken);
-        await auth.signInWithCredential(credential).catchError((onError) {
-          print("Error is $onError");
-        });
-      }
-    } catch (e) {
-      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
     }
   }
 
-  void emailRegister(String email, password) {
+  Future<bool> emailRegister(String email, password) async {
     try {
-      auth.createUserWithEmailAndPassword(email: email, password: password);
-    } catch (firebaseAuthException) {
-      Get.snackbar("Error", firebaseAuthException.toString(),
-          snackPosition: SnackPosition.BOTTOM);
+      await auth.createUserWithEmailAndPassword(email: email, password: password);
+      return true; // Registro exitoso
+    } catch (_) {
+      return false; // Fallo en el registro
     }
   }
 
-  void emailLogin(String email, password) {
+  Future<bool> emailLogin(String email, password) async {
     try {
-      auth.signInWithEmailAndPassword(email: email, password: password);
-    } catch (firebaseAuthException) {
-      Get.snackbar("Error", firebaseAuthException.toString(),
-          snackPosition: SnackPosition.BOTTOM);
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      return true; // Inicio de sesión exitoso
+    } catch (_) {
+      return false; // Fallo en el inicio de sesión
     }
   }
 
   void signOut() async {
     await auth.signOut();
+  }
+
+  void SignInWithGoogle() async {
+    try {
+      GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+        AuthCredential credential = GoogleAuthProvider.credential(
+            idToken: googleSignInAuthentication.idToken,
+            accessToken: googleSignInAuthentication.accessToken);
+        await auth.signInWithCredential(credential).catchError((_) {
+          print("Error signing in with Google");
+        });
+      }
+    } catch (_) {
+      print("Error signing in with Google");
+    }
   }
 }

@@ -1,8 +1,10 @@
-import 'package:getxlogin/Constants/auth_constans.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:getxlogin/Constants/auth_constans.dart';
+
 
 class Register extends StatefulWidget {
-  const Register({super.key});
+  const Register({Key? key}) : super(key: key);
 
   @override
   State<Register> createState() => _RegisterState();
@@ -15,58 +17,87 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Docplanta"),backgroundColor: Colors.green, centerTitle: true),
+      appBar: AppBar(
+        title: Text("Docplanta"),
+        backgroundColor: Colors.green,
+        centerTitle: true,
+      ),
       backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center, // Centra el contenido verticalmente.
-        children: [
-          Image.asset("assets/images/docplanta.png", width: 100, height: 100), // Ajusta el tamaño según tus necesidades
-          TextField(
-            decoration: InputDecoration(
-              hintText: "Email",
-              hintStyle: TextStyle(color: Colors.grey),
-              fillColor: Colors.white,
-              filled: true,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/images/docplanta.png",
+              width: 100,
+              height: 100,
             ),
-            controller: _emailController,
-            style: TextStyle(color: Colors.black),
-          ),
-          TextField(
-            decoration: InputDecoration(
-              hintText: "Contraseña",
-              hintStyle: TextStyle(color: Colors.grey),
-              fillColor: Colors.white,
-              filled: true,
+            SizedBox(height: 20),
+            TextField(
+              decoration: InputDecoration(
+                hintText: "Email",
+                hintStyle: TextStyle(color: Colors.grey),
+                fillColor: Colors.white,
+                filled: true,
+              ),
+              controller: _emailController,
+              style: TextStyle(color: Colors.black),
             ),
-            controller: _passwordController,
-            obscureText: true,
-            style: TextStyle(color: Colors.black),
-          ),
-          const SizedBox(height: 30),
-          Center( // Envuelve los botones en un widget Center para centrarlos horizontalmente.
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Centra los botones en la fila.
+            SizedBox(height: 10),
+            TextField(
+              decoration: InputDecoration(
+                hintText: "Contraseña",
+                hintStyle: TextStyle(color: Colors.grey),
+                fillColor: Colors.white,
+                filled: true,
+              ),
+              controller: _passwordController,
+              obscureText: true,
+              style: TextStyle(color: Colors.black),
+            ),
+            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    authController.emailRegister(
-                      _emailController.text, _passwordController.text,
+                    bool signUpResult = await authController.emailRegister(
+                      _emailController.text,
+                      _passwordController.text,
                     );
+
+                    if (!signUpResult) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Correo ya registrado. Prueba con otro.'),
+                        ),
+                      );
+                    }
                   },
-                  child: Text("sign up"),
+                  child: Text("Sign Up"),
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    authController.emailLogin(
-                      _emailController.text, _passwordController.text,
+                    bool loginResult = await authController.emailLogin(
+                      _emailController.text,
+                      _passwordController.text,
                     );
+
+                    if (!loginResult) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Contraseña incorrecta. Inténtalo de nuevo.'),
+                        ),
+                      );
+                    }
                   },
                   child: Text("Login"),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
